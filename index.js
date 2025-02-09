@@ -59,6 +59,7 @@ async function run() {
           application.title = job.title,
           application.company = job.company,
           application.company_logo = job.company_logo
+          application.location = job.location
         }
       }
       
@@ -68,6 +69,14 @@ async function run() {
     app.post('/job-application', async (req, res) => {
       const application = req.body;
       const result = await jobApplicationCollection.insertOne(application);
+      res.json(result)
+    })
+
+    app.delete('/job-application/:id', async(req, res) => {
+      const id = req.params.id;
+      console.log(id)
+      const query = {_id : new ObjectId(id)}
+      const result = await jobApplicationCollection.deleteOne(query)
       res.json(result)
     })
 
